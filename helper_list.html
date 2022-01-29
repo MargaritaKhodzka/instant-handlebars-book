@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Handlebars Helpers</title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            {{list numbers}}
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('list', function (list) {
+                var output = '<ul>';
+                for (var i in list) {
+                    output += '<li>'
+                        + Handlebars.Utils.escapeExpression(list[i])
+                        + '</li>';
+                }
+                output += '</ul>';
+                return new Handlebars.SafeString(output);
+            })
+
+            var output = template({
+                numbers: ['one', 'two', 'three', 'four']
+            });
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

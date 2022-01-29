@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            {{greeting}}
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('greeting', function (options) {
+                switch (options.data.language) {
+                    case 'en':
+                        return 'Welcome'
+                    case 'de':
+                        return 'Willkommen'
+                    case 'fr':
+                        return 'Bienvenue'
+                    case 'he':
+                        return 'Baruch Haba'
+                    default:
+                        return 'Welcome'
+                }
+            })
+
+            var output = template({}, {
+                data: {
+                    language: 'en'
+                }
+            });
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

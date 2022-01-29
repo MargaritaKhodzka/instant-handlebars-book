@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Handlebars Expressions</title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            {{caps content}}
+            {{caps content lower = 'no'}}
+            {{caps content lower = 'yes'}}
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('caps', function (text, options) {
+                if (!options.hash.lower || options.hash.lower === 'no') {
+                    return text.toUpperCase();
+                } else {
+                    return text.toLowerCase();
+                }
+            });
+
+            var output = template({
+                content: 'Hello'
+            });
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

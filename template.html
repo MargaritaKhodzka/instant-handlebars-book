@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+
+            var output = template({});
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

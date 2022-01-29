@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            {{#notifications notes}}
+                <div>{{title}}</div>
+            {{else}}
+                <div style='color:red'><b>{{title}}</b></div>
+            {{/notifications}}
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('notifications', function(notifs, options) {
+                var out = "";
+                for (var i in notifs) {
+                    if (notifs[i].important) {
+                        out += options.inverse(notifs[i]);
+                    } else {
+                        out += options.fn(notifs[i]);
+                    }
+                }
+                return out;
+            });
+
+            var notifications = [
+                { title: 'process #235 finished running', iportant: false },
+                { title: 'assets have been compiled', iportant: false },
+                { title: 'web server has crushed !!', iportant: true },
+                { title: '22 unread emails in inbox', iportant: false },
+                { title: 'worker #3444 waiting for input', iportant: true }
+            ];
+
+            var output = template({notes: notifications});
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

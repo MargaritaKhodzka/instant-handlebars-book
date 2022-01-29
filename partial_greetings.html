@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Handlebars Helpers</title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            <h1>My Site</h1>
+            {{> greetings}}
+        </script>
+
+        <script>
+            var partialSrc = "Hello {{name}}";
+            Handlebars.registerPartial("greetings", partialSrc);
+
+            var templateSrc = document.getElementById("template").innerHTML;
+            var template = Handlebars.compile(templateSrc);
+
+            var data = {
+                name: "Gabriel"
+            }
+
+            document.body.innerHTML += template(data);
+        </script>
+    </body>
+</html>

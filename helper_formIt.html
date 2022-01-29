@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            <div>
+                <h2>Block Version</h2>
+                {{#formIt user}}
+                    <div>Name: {{name}}</div>
+                    <div>Age: {{age}}</div>
+                    <div>Receive Newsletter ? : {{newsletter}}</div>
+                    {{submit}}
+                {{/formIt}}
+            </div>
+            <div>
+                <h2>Tag Version</h2>
+                {{formIt user}}
+            </div>
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('formIt', function (data, options) {
+                var fields = {};
+
+                // Generate the inputs
+                for (var k in data) {
+                    var v = data[k];
+                    var html = "";
+
+                    switch (typeof v) {
+                        case "string":
+                            // Escape the string to keep user data safe
+                            v = Handlebars.Utils.escapeExpression(v);
+                            html = '<input type="text" name="' + k + '" value="' + v + '" />';
+                            break;
+                        case "number":
+                            html = '<input type="number" name="' + k + '" value="' + v + '" />';
+                            break;
+                        case "boolean":
+                            var checked = (v) ? "checked" : "";
+                            html = '<input type="checkbox" name="' + k + '" ' + checked + ' />';
+                            break;
+                    }
+                    fields[k] = new Handlebars.SafeString(html);
+                }
+
+                var out = "<form>";
+
+                    if (typeof options.fn == "undefined") {
+                        // If it's a tag helper then add each element manually
+                        for (var k in fields) {
+                            out += "<div>" + k + ": " + fields[k] + "</div>";
+                        }
+                        // Add the button
+                        out += '<input type="submit" value="submit">';
+                    } else {
+                        // If its a block helper add the button and run the template
+                        var button = '<input type="submit" value="submit">';
+                        fields.submit = new Handlebars.SafeString(button);
+                        out += options.fn(fields);
+                    }
+                out += "</form>";
+                return new Handlebars.SafeString(out);
+            });
+
+            var userData = {
+                name: 'John Smith',
+                age: 25,
+                newsletter: true
+            };
+
+            var output = template({user: userData});
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

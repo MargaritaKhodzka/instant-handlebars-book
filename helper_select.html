@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            {{#optionMe}}
+                dog
+                cat
+                turtle
+                rabbit
+                horse
+            {{/optionMe}}
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('optionMe', function (options) {
+                var list = options.fn();
+                list = list.trim().split('\n');
+
+                var out = '<select>';
+                for (var i in list) {
+                    var item = list[i].trim();
+                    out += "<option value ='" + item + "'>"
+                        + item
+                        + "</option>";
+                }
+                out += '</select>';
+                return out;
+            });
+
+            var output = template({
+            });
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

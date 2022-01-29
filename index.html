@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Handlebars Quickstart</title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'quickstart' type = 'template/handlebars'>
+            <h1>Hello {{name}}</h1>
+            <ul>
+                {{#each messages}}
+                    <li><b>{{from}}</b>: {{text}}</li>
+                {{/each}}
+            </ul>
+        </script>
+
+        <script>
+            var src = document.getElementById('quickstart').innerHTML;
+            var template = Handlebars.compile(src);
+
+            var output = template({
+                name: 'Tom',
+                messages: [
+                    { from: 'John', text: 'Demo Message' },
+                    { from: 'Bob', text: 'Something Else' },
+                    { from: 'John', text: 'Second Message' },
+                ]
+            });
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>

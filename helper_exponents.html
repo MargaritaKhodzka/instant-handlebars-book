@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title></title>
+        <script src = 'handlebars.js'></script>
+    </head>
+    <body>
+        <script id = 'template' type = 'template/handlebars'>
+            <ul>
+                {{#listX 8}}
+                    <li><b>8<sup>{{number}}</sup></b> = {{result}}</li>
+                {{/listX}}
+            </ul>
+        </script>
+
+        <script>
+            var src = document.getElementById('template').innerHTML;
+            var template = Handlebars.compile(src);
+
+            Handlebars.registerHelper('listX', function (number, options) {
+                var num = parseInt(number);
+                var out = '';
+
+                for (var i = 1; i <= 10; i++) {
+                    var data = {
+                        number: i,
+                        result: Math.pow(num, i)
+                    }
+                    out += options.fn(data);
+                }
+                return out;
+            })
+
+            var output = template({});
+            document.body.innerHTML += output;
+        </script>
+    </body>
+</html>
